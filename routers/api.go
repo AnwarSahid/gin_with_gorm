@@ -10,6 +10,7 @@ func StartServer() *gin.Engine {
 	router := gin.Default()
 
 	router.GET("/getuser", controllers.GetUser)
+	// router.GET("/createuser", controllers.GetUser)
 
 	return router
 }
