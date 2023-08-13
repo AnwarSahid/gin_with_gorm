@@ -28,6 +28,27 @@ func GetUser(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"statusCode": http.StatusOK,
+		"message":    "data collected successfully",
 		"data":       users,
 	})
+}
+
+func GetUserById(ctx *gin.Context) {
+	db := database.GetDB()
+
+	var user models.User
+	res := db.Find(&user, ctx.Param("userID"))
+
+	if res == nil {
+		ctx.JSON(http.StatusOK, gin.H{
+			"statusCode": http.StatusOK,
+			"message ":   "data not found",
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": "data collected succesfully",
+			"datas":   user,
+		})
+	}
+
 }
