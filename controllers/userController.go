@@ -100,3 +100,18 @@ func UpdateUser(ctx *gin.Context) {
 		"message": "User updated successfully",
 	})
 }
+func DeleteUser(ctx *gin.Context) {
+	db := database.GetDB()
+	user := models.User{}
+	param := ctx.Param("userID")
+	err := db.Where("id = ?", param).Delete(&user).Error
+	if err != nil {
+		ctx.JSON(http.StatusOK, gin.H{
+			"message": err,
+		})
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "deleted successfully",
+	})
+}

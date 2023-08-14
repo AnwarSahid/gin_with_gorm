@@ -13,6 +13,7 @@ func StartServer() *gin.Engine {
 	router.GET("/getuser/:userID", controllers.GetUserById)
 	router.POST("/createuser", controllers.CreateUser)
 	router.PUT("/updateuser/:userID", controllers.UpdateUser)
+	router.DELETE("/deleteuser/:userID", controllers.DeleteUser)
 
 	return router
 }
