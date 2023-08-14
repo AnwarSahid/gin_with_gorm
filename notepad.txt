@@ -1,0 +1,17 @@
+
+
+pada codingan ini menggunakan framework gin dan gorm orm dengan driver postgres
+
+
+ini bisa jadi urutan dalam pembuatan.
+
+1.  inisial gomod, get gorm, driver gorm postgres, gin
+2.  buat dulu servernya atau routernya di folder router/api.go
+   -buat StartServer dan masukan import pada main.go
+3.  buat connection pada db bisa dlihat di database/database.go
+    - import juga connectionnya ke main.go untuk start db nya
+4.  buat models untuk representasi dari database
+5.  buat controllers untuk digunakan sbagai func crud
+6.  panggil controllers nya ke api.go
+
+

@@ -50,5 +50,53 @@ func GetUserById(ctx *gin.Context) {
 			"datas":   user,
 		})
 	}
+}
 
+func CreateUser(ctx *gin.Context) {
+	db := database.GetDB()
+	var user models.User
+	err := ctx.ShouldBindJSON(&user)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	res := db.Create(&user)
+
+	if res.Error != nil {
+		ctx.JSON(500, gin.H{
+			"message": res.Error,
+		})
+	}
+	ctx.JSON(200, &user)
+}
+
+func UpdateUser(ctx *gin.Context) {
+	db := database.GetDB()
+	var user = models.User{}
+	err := ctx.ShouldBind(&user)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return // Menghentikan eksekusi jika terjadi kesalahan
+	}
+	param := ctx.Param("userID")
+	updateErr := db.Model(&user).Where("id = ?", param).Updates(models.User{
+		Name: user.Name,
+	}).Error
+
+	if updateErr != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": updateErr.Error(),
+		})
+		return // Menghentikan eksekusi jika terjadi kesalahan dalam meng-update
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "User updated successfully",
+	})
 }
